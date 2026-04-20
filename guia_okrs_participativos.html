@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia de OKRs Participativos</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --ink: #0f0e0c;
+    --paper: #f5f0e8;
+    --accent: #c8451a;
+    --accent-light: #e8d5cc;
+    --gold: #b8923a;
+    --gold-light: #f0e4c8;
+    --muted: #6b6560;
+    --rule: #d0c8bc;
+    --green: #2a5c3f;
+    --green-light: #d4e8dc;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background-color: var(--paper);
+    color: var(--ink);
+    font-size: 17px;
+    line-height: 1.75;
+  }
+
+  /* COVER */
+  .cover {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cover-left {
+    background: var(--ink);
+    padding: 80px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+
+  .cover-left::after {
+    content: '';
+    position: absolute;
+    top: 0; right: -1px;
+    width: 2px;
+    height: 100%;
+    background: var(--accent);
+  }
+
+  .cover-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-left: 2px solid var(--accent);
+    padding-left: 12px;
+  }
+
+  .cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(52px, 6vw, 84px);
+    font-weight: 900;
+    line-height: 1.0;
+    color: var(--paper);
+  }
+
+  .cover-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .cover-subtitle {
+    font-size: 15px;
+    color: var(--muted);
+    font-weight: 300;
+    letter-spacing: 0.03em;
+    max-width: 320px;
+  }
+
+  .cover-right {
+    background: var(--accent);
+    padding: 80px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 40px;
+    position: relative;
+  }
+
+  .cover-right::before {
+    content: 'OKR';
+    position: absolute;
+    bottom: -20px;
+    right: -10px;
+    font-family: 'Playfair Display', serif;
+    font-size: 220px;
+    font-weight: 900;
+    color: rgba(255,255,255,0.07);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .cover-chapter {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .chapter-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    padding-top: 4px;
+    min-width: 24px;
+  }
+
+  .chapter-label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.3;
+  }
+
+  .chapter-desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.65);
+    font-weight: 300;
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+  .cover-badge {
+    position: absolute;
+    bottom: 60px;
+    left: 60px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .badge-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .badge-text {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* CONTENT */
+  .content {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 100px 60px;
+  }
+
+  /* CHAPTER HEADER */
+  .chapter-header {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 40px;
+    align-items: start;
+    margin-bottom: 60px;
+    padding-bottom: 60px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .ch-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 120px;
+    font-weight: 900;
+    line-height: 0.85;
+    color: var(--rule);
+    letter-spacing: -4px;
+    user-select: none;
+  }
+
+  .ch-content {
+    padding-top: 12px;
+  }
+
+  .ch-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .ch-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+
+  .ch-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .ch-lead {
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.65;
+    max-width: 540px;
+  }
+
+  /* SECTION DIVIDER */
+  .section-divider {
+    margin: 80px 0 60px;
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .divider-mark {
+    height: 2px;
+    background: var(--accent);
+  }
+
+  .divider-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* PROSE */
+  .prose p {
+    margin-bottom: 24px;
+    font-weight: 400;
+    color: #2a2620;
+  }
+
+  .prose p:last-child { margin-bottom: 0; }
+
+  .prose strong {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  /* PULL QUOTE */
+  .pull-quote {
+    margin: 48px 0;
+    padding: 40px 48px;
+    background: var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pull-quote::before {
+    content: '\201C';
+    position: absolute;
+    top: -20px;
+    left: 30px;
+    font-family: 'Playfair Display', serif;
+    font-size: 160px;
+    color: var(--accent);
+    opacity: 0.3;
+    line-height: 1;
+  }
+
+  .pull-quote p {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(20px, 2.5vw, 28px);
+    font-style: italic;
+    color: var(--paper);
+    line-height: 1.45;
+    position: relative;
+    z-index: 1;
+  }
+
+  .pull-quote cite {
+    display: block;
+    margin-top: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    font-style: normal;
+  }
+
+  /* HIGHLIGHT BOX */
+  .highlight-box {
+    background: var(--gold-light);
+    border-left: 4px solid var(--gold);
+    padding: 28px 32px;
+    margin: 40px 0;
+  }
+
+  .highlight-box .box-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+
+  .highlight-box p {
+    font-size: 15px;
+    line-height: 1.65;
+    color: #4a3a1a;
+  }
+
+  /* GREEN BOX */
+  .green-box {
+    background: var(--green-light);
+    border-left: 4px solid var(--green);
+    padding: 28px 32px;
+    margin: 40px 0;
+  }
+
+  .green-box .box-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 10px;
+  }
+
+  .green-box p {
+    font-size: 15px;
+    line-height: 1.65;
+    color: #1a3a28;
+  }
+
+  /* GRID CARDS */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+    margin: 40px 0;
+  }
+
+  .card {
+    border: 1px solid var(--rule);
+    padding: 28px;
+    background: #fff;
+    position: relative;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--accent);
+  }
+
+  .card-icon {
+    font-size: 28px;
+    margin-bottom: 14px;
+    display: block;
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 10px;
+    line-height: 1.25;
+  }
+
+  .card-text {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--muted);
+  }
+
+  /* COMPARISON TABLE */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 40px 0;
+    font-size: 14px;
+  }
+
+  .compare-table thead tr {
+    background: var(--ink);
+  }
+
+  .compare-table thead th {
+    padding: 16px 20px;
+    text-align: left;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--paper);
+    font-weight: 500;
+  }
+
+  .compare-table tbody tr:nth-child(odd) {
+    background: #fff;
+  }
+
+  .compare-table tbody tr:nth-child(even) {
+    background: #faf6f0;
+  }
+
+  .compare-table tbody td {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+    line-height: 1.55;
+    color: #3a3228;
+  }
+
+  .compare-table tbody td:first-child {
+    font-weight: 600;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  .compare-table .bad { color: var(--accent); }
+  .compare-table .good { color: var(--green); }
+
+  /* STEP LIST */
+  .step-list {
+    counter-reset: steps;
+    list-style: none;
+    margin: 40px 0;
+  }
+
+  .step-list li {
+    counter-increment: steps;
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 20px;
+    margin-bottom: 28px;
+    align-items: start;
+  }
+
+  .step-list li::before {
+    content: counter(steps);
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1.1;
+    text-align: right;
+  }
+
+  .step-content strong {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .step-content p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* FORMULA BOX */
+  .formula-box {
+    background: var(--ink);
+    padding: 40px 48px;
+    margin: 40px 0;
+    text-align: center;
+  }
+
+  .formula-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .formula {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 3vw, 36px);
+    color: var(--paper);
+    line-height: 1.3;
+  }
+
+  .formula span {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  .formula-note {
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  /* RITUAL CARD */
+  .ritual-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 40px 0;
+  }
+
+  .ritual-card {
+    background: #fff;
+    border: 1px solid var(--rule);
+    padding: 28px;
+  }
+
+  .ritual-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .ritual-icon {
+    width: 40px; height: 40px;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .ritual-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+
+  .ritual-freq {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .ritual-items {
+    list-style: none;
+  }
+
+  .ritual-items li {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.55;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--rule);
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .ritual-items li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 14px;
+    width: 6px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .ritual-items li:last-child { border-bottom: none; }
+
+  /* CHAPTER BREAK */
+  .chapter-break {
+    margin: 100px 0 0;
+    padding-top: 80px;
+    border-top: 1px solid var(--rule);
+  }
+
+  /* JOURNEY SECTION */
+  .journey {
+    background: var(--ink);
+    padding: 80px 60px;
+    margin-top: 100px;
+  }
+
+  .journey-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 900;
+    color: var(--paper);
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .journey-sub {
+    text-align: center;
+    font-size: 15px;
+    color: var(--muted);
+    font-weight: 300;
+    margin-bottom: 60px;
+  }
+
+  .journey-steps {
+    display: grid;
+    grid-template-columns: 1fr 40px 1fr 40px 1fr;
+    gap: 0;
+    align-items: center;
+    max-width: 840px;
+    margin: 0 auto;
+  }
+
+  .journey-step {
+    text-align: center;
+    padding: 32px 24px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.04);
+  }
+
+  .journey-step.active {
+    border-color: var(--accent);
+    background: rgba(200,69,26,0.08);
+  }
+
+  .js-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .js-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--paper);
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+
+  .js-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  .journey-arrow {
+    text-align: center;
+    color: var(--accent);
+    font-size: 20px;
+  }
+
+  /* FOOTER */
+  .footer {
+    padding: 60px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .footer-mono {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .cover { grid-template-columns: 1fr; }
+    .cover-right::before { display: none; }
+    .cover-right { padding: 60px 36px; }
+    .cover-left { padding: 60px 36px; min-height: 60vh; }
+    .content { padding: 60px 28px; }
+    .chapter-header { grid-template-columns: 1fr; }
+    .ch-number { font-size: 80px; }
+    .ritual-grid { grid-template-columns: 1fr; }
+    .journey-steps { grid-template-columns: 1fr; }
+    .journey-arrow { transform: rotate(90deg); }
+    .footer { flex-direction: column; gap: 16px; text-align: center; }
+    .pull-quote { padding: 28px 28px; }
+    .formula-box { padding: 28px 28px; }
+  }
+
+  @media print {
+    .cover { min-height: auto; page-break-after: always; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-left">
+    <div>
+      <p class="cover-eyebrow">Guia Prático / Gestao de Times</p>
+    </div>
+    <div>
+      <h1 class="cover-title">OKRs que<br><em>Libertam,</em><br>Não Prendem</h1>
+    </div>
+    <div>
+      <p class="cover-subtitle">Como usar OKRs para eliminar o microgerenciamento, dar autonomia real ao time e ainda manter a empresa alinhada em torno do que importa.</p>
+    </div>
+    <div class="cover-badge">
+      <div class="badge-dot"></div>
+      <span class="badge-text">Parte 3 da Jornada / Direção e Metas</span>
+    </div>
+  </div>
+  <div class="cover-right">
+    <div class="cover-chapter">
+      <span class="chapter-num">01</span>
+      <div>
+        <div class="chapter-label">A Lógica da Descentralização</div>
+        <div class="chapter-desc">Por que OKRs matam o microgerenciamento quando aplicados corretamente</div>
+      </div>
+    </div>
+    <div class="cover-chapter">
+      <span class="chapter-num">02</span>
+      <div>
+        <div class="chapter-label">Regra 60/40</div>
+        <div class="chapter-desc">Como equilibrar metas da empresa com as ideias e prioridades do time</div>
+      </div>
+    </div>
+    <div class="cover-chapter">
+      <span class="chapter-num">03</span>
+      <div>
+        <div class="chapter-label">Outcomes vs. Outputs</div>
+        <div class="chapter-desc">Como dar liberdade de escolha focando no resultado final, não na tarefa</div>
+      </div>
+    </div>
+    <div class="cover-chapter">
+      <span class="chapter-num">04</span>
+      <div>
+        <div class="chapter-label">Rituais de Check-in</div>
+        <div class="chapter-desc">Como manter a autonomia viva durante todo o trimestre</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- INTRO -->
+  <div style="max-width:720px; margin-bottom: 80px; padding-top: 20px;">
+    <p style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:24px;">Antes de começar</p>
+    <p style="font-size:20px; font-weight:300; line-height:1.7; color:#2a2620;">A maioria das empresas usa OKRs do jeito errado. Transforma uma ferramenta de autonomia em mais uma lista de tarefas com nome bonito. O resultado é um time que sente mais pressão, não mais liberdade.</p>
+    <p style="font-size:20px; font-weight:300; line-height:1.7; color:#2a2620; margin-top:20px;">Este guia existe para virar essa lógica. Cada capítulo entrega conceitos e ferramentas para que OKRs se tornem o que deveriam ser: um pacto claro entre empresa e time sobre <strong>o que importa</strong>, deixando o <em>como chegar lá</em> nas mãos de quem executa.</p>
+  </div>
+
+  <!-- CHAPTER 1 -->
+  <div class="chapter-header">
+    <div class="ch-number">01</div>
+    <div class="ch-content">
+      <span class="ch-tag">Capítulo Um</span>
+      <h2 class="ch-title">A Lógica da<br><em>Descentralização</em></h2>
+      <p class="ch-lead">Por que OKRs matam o microgerenciamento quando aplicados da forma correta e o que acontece quando a lógica é invertida.</p>
+    </div>
+  </div>
+
+  <div class="prose">
+    <p>Existe uma tensão antiga no interior das organizações. De um lado, líderes querem garantir que o trabalho aconteça na direção certa. De outro, profissionais querem autonomia para escolher como executar. O microgerenciamento é a tentativa de resolver essa tensão pelo controle. Os OKRs são a tentativa de resolvê-la pela confiança.</p>
+
+    <p>O problema é que muitas empresas adotam o vocabulário dos OKRs sem adotar a filosofia que os sustenta. Criam Objectives e Key Results, sim. Mas continuam dizendo exatamente o que o time deve fazer, como deve fazer e quando. Trocam a planilha de tarefas por uma planilha de OKRs e chamam isso de transformação cultural.</p>
+  </div>
+
+  <div class="pull-quote">
+    <p>OKR não é um sistema de rastreamento de tarefas. É um acordo sobre destino. A rota pertence a quem vai dirigir.</p>
+    <cite>Princípio central dos OKRs participativos</cite>
+  </div>
+
+  <div class="prose">
+    <p>A descentralização que os OKRs permitem funciona em três camadas. A primeira é a camada estratégica: a empresa define onde quer chegar. A segunda é a camada de resultado: o time define quais métricas concretas indicarão que o destino foi alcançado. A terceira é a camada de execução: cada pessoa ou subgrupo decide como vai mover essas métricas.</p>
+
+    <p>Quando as três camadas estão separadas e respeitadas, o microgerenciamento perde objeto. O líder não precisa controlar o passo a passo porque o que ele se importa está claro em forma de resultado mensurável. O time não precisa pedir permissão para cada decisão porque o campo de ação está delimitado pelos Key Results, não por um checklist de atividades.</p>
+  </div>
+
+  <div class="section-divider">
+    <div class="divider-mark"></div>
+    <span class="divider-label">O diagnóstico</span>
+  </div>
+
+  <p style="margin-bottom:28px; font-size:15px; color:var(--muted); font-weight:500; letter-spacing:0.01em;">Como identificar se o seu OKR virou microgerenciamento disfarçado</p>
+
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>Sinal</th>
+        <th>OKR como controle</th>
+        <th>OKR como autonomia</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Quem define o KR</td>
+        <td class="bad">Apenas a liderança</td>
+        <td class="good">Time participa ativamente</td>
+      </tr>
+      <tr>
+        <td>O que o KR mede</td>
+        <td class="bad">Tarefas concluídas</td>
+        <td class="good">Mudanças no mundo real</td>
+      </tr>
+      <tr>
+        <td>O que acontece no check-in</td>
+        <td class="bad">Prestação de contas de atividades</td>
+        <td class="good">Aprendizado sobre o que está funcionando</td>
+      </tr>
+      <tr>
+        <td>Reacao ao desvio</td>
+        <td class="bad">Correção de rota imposta</td>
+        <td class="good">Time propõe ajustes</td>
+      </tr>
+      <tr>
+        <td>Pergunta dominante</td>
+        <td class="bad">"Voce fez o que devia?"</td>
+        <td class="good">"O que aprendemos? O que muda?"</td>
+      </tr>
+      <tr>
+        <td>Sensacao do time</td>
+        <td class="bad">Vigiado</td>
+        <td class="good">Orientado</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="highlight-box">
+    <div class="box-label">Ponto de atenção</div>
+    <p>Um OKR bem escrito jamais diz "lançar o produto X" como Key Result. Diz "atingir 500 usuários ativos no mês seguinte ao lançamento". A diferença é sutil na escrita e enorme na prática. No primeiro caso, o time entrega o lançamento e pronto. No segundo, o time precisa pensar em como tornar o produto útil e adotado, o que exige autonomia criativa.</p>
+  </div>
+
+  <!-- CHAPTER 2 -->
+  <div class="chapter-break">
+    <div class="chapter-header">
+      <div class="ch-number">02</div>
+      <div class="ch-content">
+        <span class="ch-tag">Capítulo Dois</span>
+        <h2 class="ch-title">A Regra<br><em>60 / 40</em></h2>
+        <p class="ch-lead">Como equilibrar a direção que a empresa precisa dar com o espaço que o time precisa ter para colocar sua inteligência a serviço dos resultados.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="prose">
+    <p>Há um dilema genuíno na construção de OKRs participativos. Se a empresa define tudo, o time não tem voz e perde engajamento. Se o time define tudo, pode haver divergência de direção entre áreas e a estratégia vira um mosaico incoerente. A Regra 60/40 resolve esse dilema com uma divisão prática e deliberada de poder.</p>
+
+    <p>A lógica é simples. Sessenta por cento dos OKRs do time são derivados diretamente dos OKRs corporativos ou de área. Eles garantem alinhamento. Os outros quarenta por cento são propostos pelo próprio time com base no que eles enxergam como mais crítico no seu contexto operacional. Eles garantem engajamento e inteligência distribuída.</p>
+  </div>
+
+  <div class="formula-box">
+    <span class="formula-label">A Regra</span>
+    <div class="formula">
+      <span>60%</span> de alinhamento estrategico
+      <br>+ 
+      <span>40%</span> de iniciativa do time
+      <br>= OKR com dono real
+    </div>
+    <p class="formula-note" style="color:rgba(255,255,255,0.4);">Os percentuais são uma referência, não uma lei. O princípio importa mais que o número exato.</p>
+  </div>
+
+  <div class="prose">
+    <p>Os 60% de alinhamento não são imposição. São o ponto de partida da conversa. O líder apresenta os OKRs da empresa e pergunta: "O que vocês acham que nosso time precisa entregar para que esses resultados aconteçam?" Essa pergunta sozinha muda tudo. O time deixa de receber metas e passa a co-construí-las.</p>
+
+    <p>Os 40% de iniciativa são onde a mágica acontece. É o espaço onde o time diz: "Tem uma coisa que a gente vê todo dia que ninguém mais vê. Se resolvermos isso, muda o jogo." Esse conhecimento de frente de trabalho raramente chega ao nível estratégico sem um mecanismo deliberado de escuta. A Regra 60/40 é esse mecanismo.</p>
+  </div>
+
+  <div class="section-divider">
+    <div class="divider-mark"></div>
+    <span class="divider-label">Como aplicar na prática</span>
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-content">
+        <strong>Compartilhe os OKRs da empresa antes da reunião de planejamento</strong>
+        <p>Envie com pelo menos três dias de antecedência para que o time possa processar e chegar com perguntas e ideias formadas. Reunião de planejamento não é lugar para surpresa.</p>
+      </div>
+    </li>
+    <li>
+      <div class="step-content">
+        <strong>Faça a pergunta geradora antes de propor qualquer meta</strong>
+        <p>"Olhando para esses objetivos da empresa, o que vocês acham que precisamos conseguir neste trimestre?" Registre tudo. Não descarte na hora.</p>
+      </div>
+    </li>
+    <li>
+      <div class="step-content">
+        <strong>Separe as contribuições em duas colunas</strong>
+        <p>Coluna A: contribuições que claramente movem os OKRs corporativos. Coluna B: contribuições que o time vê como críticas por outras razões. Não descarte a Coluna B. Ela é o seu 40%.</p>
+      </div>
+    </li>
+    <li>
+      <div class="step-content">
+        <strong>Negocie abertamente os 40%</strong>
+        <p>Se o time propõe algo que vai exigir recurso ou que conflita com prioridades, diga isso com clareza. A transparência sobre restrições é mais respeitosa do que rejeitar a ideia sem explicação.</p>
+      </div>
+    </li>
+    <li>
+      <div class="step-content">
+        <strong>Documente quem foi o "dono" de cada OKR proposto</strong>
+        <p>Quando um Key Result nasce de uma ideia do time, a pessoa que o propôs tende a se sentir responsável por ele de um jeito diferente. Isso é engajamento orgânico.</p>
+      </div>
+    </li>
+  </ul>
+
+  <div class="green-box">
+    <div class="box-label">Por que isso funciona</div>
+    <p>Pesquisas em comportamento organizacional mostram que pessoas se comprometem mais com metas que ajudaram a construir do que com metas que receberam prontas, mesmo quando o conteúdo das metas é idêntico. A Regra 60/40 não é apenas uma técnica de planejamento. É uma técnica de psicologia do comprometimento.</p>
+  </div>
+
+  <!-- CHAPTER 3 -->
+  <div class="chapter-break">
+    <div class="chapter-header">
+      <div class="ch-number">03</div>
+      <div class="ch-content">
+        <span class="ch-tag">Capítulo Três</span>
+        <h2 class="ch-title">Outcomes<br><em>vs. Outputs</em></h2>
+        <p class="ch-lead">A diferença que muda tudo: como dar liberdade real de escolha ao time definindo o que precisa mudar no mundo, não o que precisa ser feito.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="prose">
+    <p>Output é o que você produz. Outcome é o que muda por causa do que você produziu. Essa distinção é o coração dos OKRs bem escritos e a raiz de quase todos os erros na prática.</p>
+
+    <p>Um time que tem como Key Result "publicar 12 artigos no blog" sabe exatamente o que fazer. Escreve os artigos. Publica. Marca como concluído. Mas não necessariamente sabe por que isso importa, nem tem incentivo para escolher temas que realmente funcionem. A meta foi atingida. O resultado esperado pode não ter acontecido.</p>
+
+    <p>Um time que tem como Key Result "aumentar o tráfego orgânico qualificado em 30% ao fim do trimestre" precisa pensar. Precisa entender quem é o usuário, o que ele busca, quais formatos convertem melhor. Pode escolher escrever 4 artigos longos em vez de 12 curtos. Pode decidir que vídeo funciona melhor que texto para aquele público. A meta de outcome cria espaço para inteligência.</p>
+  </div>
+
+  <div class="pull-quote">
+    <p>Quando você define outputs, você está dizendo ao time o que fazer. Quando você define outcomes, você está dizendo ao time para onde ir. Apenas o segundo gera autonomia verdadeira.</p>
+  </div>
+
+  <div class="section-divider">
+    <div class="divider-mark"></div>
+    <span class="divider-label">O teste prático</span>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <span class="card-icon">📦</span>
+      <div class="card-title">Output disfarçado de KR</div>
+      <p class="card-text">Frases que indicam output: "Lançar...", "Entregar...", "Publicar...", "Implementar...", "Criar...". Qualquer Key Result que o time pode marcar como concluído sem saber se funcionou é provavelmente um output.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🎯</span>
+      <div class="card-title">Outcome verdadeiro</div>
+      <p class="card-text">Frases que indicam outcome: "Aumentar...", "Reduzir...", "Atingir...", "Melhorar...", "Converter...". O Key Result só pode ser considerado concluído quando algo mudou no comportamento de usuários, clientes ou no próprio negócio.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🔄</span>
+      <div class="card-title">A pergunta da transformação</div>
+      <p class="card-text">Para qualquer Key Result proposto, pergunte: "É possível atingir esse número sem que nada importante mude de fato?" Se a resposta for sim, é um output. Reescreva até que a resposta seja não.</p>
+    </div>
+  </div>
+
+  <div class="section-divider">
+    <div class="divider-mark"></div>
+    <span class="divider-label">Exemplos de reescrita</span>
+  </div>
+
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>Contexto</th>
+        <th>Output (fraco)</th>
+        <th>Outcome (forte)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Marketing de Conteúdo</td>
+        <td class="bad">Publicar 3 casos de sucesso</td>
+        <td class="good">Aumentar leads qualificados via conteúdo em 25%</td>
+      </tr>
+      <tr>
+        <td>Produto</td>
+        <td class="bad">Lançar funcionalidade de relatório</td>
+        <td class="good">Reduzir solicitações de suporte sobre relatórios em 40%</td>
+      </tr>
+      <tr>
+        <td>Vendas</td>
+        <td class="bad">Realizar 60 demos no trimestre</td>
+        <td class="good">Atingir taxa de conversão de demo para proposta acima de 45%</td>
+      </tr>
+      <tr>
+        <td>RH</td>
+        <td class="bad">Implementar programa de feedback contínuo</td>
+        <td class="good">Elevar o eNPS de 32 para 45 ao fim do trimestre</td>
+      </tr>
+      <tr>
+        <td>Suporte</td>
+        <td class="bad">Treinar time em novo protocolo de atendimento</td>
+        <td class="good">Reduzir tempo médio de resolução de 48h para 24h</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="highlight-box">
+    <div class="box-label">Nota importante sobre confiança</div>
+    <p>Definir outcomes em vez de outputs só funciona quando há confiança genuína de que o time vai buscar os resultados com integridade. Líderes que não confiam no time vão resistir a essa abordagem porque perdem visibilidade do dia a dia. É exatamente aqui que OKRs participativos e cultura de autonomia se conectam: um não funciona sem o outro.</p>
+  </div>
+
+  <!-- CHAPTER 4 -->
+  <div class="chapter-break">
+    <div class="chapter-header">
+      <div class="ch-number">04</div>
+      <div class="ch-content">
+        <span class="ch-tag">Capítulo Quatro</span>
+        <h2 class="ch-title">Rituais de<br><em>Check-in</em></h2>
+        <p class="ch-lead">Como manter a autonomia viva durante o trimestre sem perder o alinhamento e sem escorregar de volta para o microgerenciamento.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="prose">
+    <p>OKRs não se gerenciam sozinhos. Um bom processo de check-in é o que separa times que usam OKRs como ritual burocrático de times que usam OKRs como ferramenta real de aprendizado e ajuste de rota.</p>
+
+    <p>O erro mais comum nos check-ins é transformá-los em prestação de contas. O líder pergunta "Onde estamos em relação à meta?" O time responde com um número. O líder aprova ou questiona. Ninguém aprende nada. A autonomia morre na terceira semana do trimestre.</p>
+
+    <p>Um check-in bem estruturado é uma conversa em quatro movimentos. Primeiro, o time apresenta o que os números estão dizendo. Segundo, o time interpreta o que os números significam. Terceiro, o time propõe o que vai mudar com base nessa interpretação. Quarto, o líder contribui com perspectiva ou recursos que o time não tem. Nessa sequência, o líder é o último a falar, não o primeiro.</p>
+  </div>
+
+  <div class="section-divider">
+    <div class="divider-mark"></div>
+    <span class="divider-label">Os quatro rituais essenciais</span>
+  </div>
+
+  <div class="ritual-grid">
+    <div class="ritual-card">
+      <div class="ritual-header">
+        <div class="ritual-icon">📅</div>
+        <div class="ritual-name">Check-in Semanal</div>
+      </div>
+      <span class="ritual-freq">Toda semana / 15-30 minutos</span>
+      <ul class="ritual-items">
+        <li>Atualização rápida do progresso de cada KR</li>
+        <li>Um aprendizado ou hipótese nova por KR</li>
+        <li>Sinalização de bloqueios ou riscos emergentes</li>
+        <li>Formato assíncrono funciona bem aqui</li>
+      </ul>
+    </div>
+    <div class="ritual-card">
+      <div class="ritual-header">
+        <div class="ritual-icon">🔍</div>
+        <div class="ritual-name">Review Quinzenal</div>
+      </div>
+      <span class="ritual-freq">A cada duas semanas / 45-60 minutos</span>
+      <ul class="ritual-items">
+        <li>Análise de tendência: o ritmo atual leva ao destino?</li>
+        <li>O que o time aprendeu desde o último review?</li>
+        <li>Há algo que precisa ser mudado na abordagem?</li>
+        <li>Espaço para o time propor ajustes nos KRs se o contexto mudou</li>
+      </ul>
+    </div>
+    <div class="ritual-card">
+      <div class="ritual-header">
+        <div class="ritual-icon">🔭</div>
+        <div class="ritual-name">Mid-Quarter Review</div>
+      </div>
+      <span class="ritual-freq">No meio do trimestre / 90-120 minutos</span>
+      <ul class="ritual-items">
+        <li>Revisão profunda de todos os OKRs</li>
+        <li>Avaliar se os KRs ainda são os certos para o objetivo</li>
+        <li>Renegociação de metas se o contexto mudou significativamente</li>
+        <li>Time apresenta para a liderança, não o contrário</li>
+      </ul>
+    </div>
+    <div class="ritual-card">
+      <div class="ritual-header">
+        <div class="ritual-icon">🏁</div>
+        <div class="ritual-name">Retrospectiva Trimestral</div>
+      </div>
+      <span class="ritual-freq">Ao fim do trimestre / 2-3 horas</span>
+      <ul class="ritual-items">
+        <li>Avaliação dos resultados: o que conseguimos?</li>
+        <li>O que aprendemos sobre o negócio?</li>
+        <li>O que aprendemos sobre como trabalhamos?</li>
+        <li>Quais OKRs do próximo ciclo já são evidentes?</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-divider">
+    <div class="divider-mark"></div>
+    <span class="divider-label">A escala de autonomia no check-in</span>
+  </div>
+
+  <div class="prose">
+    <p>Existe uma forma prática de medir se o seu check-in está preservando ou destruindo autonomia. Observe a proporção de fala. Em um check-in saudável, o time fala pelo menos 70% do tempo. O líder escuta, pergunta e contribui com perspectiva, mas não domina a conversa.</p>
+
+    <p>Outra métrica útil é o tipo de pergunta que o líder faz. Perguntas de controle soam assim: "Por que você não fez X?", "Quando isso vai estar pronto?", "Você tem certeza de que essa é a melhor abordagem?" Perguntas de autonomia soam assim: "O que esse número está te dizendo?", "O que você mudaria se pudesse refazer?", "O que eu posso fazer para ajudar a desbloquear isso?"</p>
+  </div>
+
+  <div class="green-box">
+    <div class="box-label">O princípio do check-in autônomo</div>
+    <p>A pergunta mais poderosa de um check-in não é "Como estamos indo em relação à meta?" É "O que estamos aprendendo?" Metas podem ser atingidas sem aprendizado, e o aprendizado pode acontecer mesmo quando a meta não é atingida. Times autônomos usam os check-ins para construir conhecimento coletivo sobre o negócio, não apenas para reportar números.</p>
+  </div>
+
+  <div class="section-divider">
+    <div class="divider-mark"></div>
+    <span class="divider-label">Quando o líder deve intervir</span>
+  </div>
+
+  <div class="prose">
+    <p>Autonomia não é ausência de liderança. Há momentos em que a intervenção do líder não é microgerenciamento, é responsabilidade. O líder deve intervir quando o time está em risco de atingir o KR pelo caminho errado, quando há uma informação estratégica que o time não tem acesso, quando o time está preso em um bloqueio que só a liderança pode resolver, e quando há impacto em outros times que não está sendo considerado.</p>
+
+    <p>A diferença entre intervenção saudável e microgerenciamento está na forma. Intervenção saudável é o líder trazendo informação ou perspectiva que o time não tem. Microgerenciamento é o líder substituindo o julgamento do time pelo seu próprio sem razão clara.</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <span class="card-icon">🛑</span>
+      <div class="card-title">Sinais de que você está microgerenciando</div>
+      <p class="card-text">Você revisa o trabalho antes de o time considerar pronto. Você muda a abordagem do time sem explicar o porquê. Você pede atualizações mais frequentes do que os rituais acordados. Você questiona decisões táticas que são competência do time.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">✅</span>
+      <div class="card-title">Sinais de que você está liderando bem</div>
+      <p class="card-text">O time vem até você com perguntas, não para pedir permissão. Você frequentemente aprende coisas sobre o negócio nos check-ins. O time toma decisões que você não antecipou e que funcionam. As pessoas discordam de você e constroem o argumento.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- JOURNEY SECTION -->
+<div class="journey">
+  <h2 class="journey-title">A Jornada Completa</h2>
+  <p class="journey-sub">Três materiais. Uma progressão lógica para construir times verdadeiramente autônomos.</p>
+
+  <div class="journey-steps">
+    <div class="journey-step">
+      <span class="js-num">Parte 01</span>
+      <div class="js-title">Consciência</div>
+      <p class="js-desc">Post da Roberta. O ponto de partida: por que autonomia importa e o que está em jogo quando ela não existe.</p>
+    </div>
+    <div class="journey-arrow">&#8594;</div>
+    <div class="journey-step">
+      <span class="js-num">Parte 02</span>
+      <div class="js-title">Limites de Decisão</div>
+      <p class="js-desc">Guia de Alçadas. O mapa do território: quem decide o que, em que nível e sob quais condições.</p>
+    </div>
+    <div class="journey-arrow">&#8594;</div>
+    <div class="journey-step active">
+      <span class="js-num">Parte 03</span>
+      <div class="js-title">Direção e Metas</div>
+      <p class="js-desc">Este guia. O compasso: como alinhar direção sem controlar o caminho, usando OKRs como ferramenta de confiança.</p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-brand">OKRs Participativos</div>
+  <div class="footer-mono">Guia Prático / Versão 1.0 / 2025</div>
+</div>
+
+</body>
+</html>
